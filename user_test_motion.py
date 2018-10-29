@@ -6,7 +6,7 @@ from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 
-URI = 'radio://0/70/2M'
+URI = 'radio://0/0/2M'
 
 # Only output errors from the logging framework
 logging.basicConfig(level=logging.ERROR)
