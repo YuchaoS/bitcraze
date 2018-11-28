@@ -32,6 +32,7 @@ The PositionHlCommander uses position setpoints.
 Change the URI variable to your Crazyflie configuration.
 """
 import cflib.crtp
+import time
 from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.position_hl_commander import PositionHlCommander
@@ -49,16 +50,17 @@ def slightly_more_complex_usage():
                 default_height=0.5,
                 controller=PositionHlCommander.CONTROLLER_MELLINGER) as pc:
             # Go to a coordinate
-            pc.go_to(1.0, 2.0, 1.)
+            pc.go_to(2.0, 2.0, 1)
+            time.sleep(2)
 
             # Move relative to the current position
-            pc.go_to(1.0, 4.0)
+#            pc.go_to(1.0, 4.0)
 
             # Go to a coordinate and use default height
-            pc.go_to(2.0, 4.0)
+#            pc.go_to(2.0, 4.0)
 
             # Go slowly to a coordinate
-            pc.go_to(2.0, 2.0)
+#            pc.go_to(2.0, 2.0)
 
             # Set new default velocity and height
             #pc.set_default_velocity(0.3)
