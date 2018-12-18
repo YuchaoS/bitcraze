@@ -6,9 +6,9 @@ from cflib.crazyflie.swarm import CachedCfFactory
 from cflib.crazyflie.swarm import Swarm
 from cflib.crazyflie.syncLogger import SyncLogger
 
-URI1 = 'radio://0/0/2M/E7E7E7E701'
-URI2 = 'radio://0/0/2M/E7E7E7E702'
-URI3 = 'radio://0/0/2M/E7E7E7E703'
+URI1 = 'radio://0/0/2M/E7E7E7E700'
+URI2 = 'radio://0/0/2M/E7E7E7E701'
+URI3 = 'radio://0/0/2M/E7E7E7E702'
 
 sequence1 = [
     (0.,0.,1.0,3.0),
