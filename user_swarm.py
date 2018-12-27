@@ -6,34 +6,64 @@ from cflib.crazyflie.swarm import CachedCfFactory
 from cflib.crazyflie.swarm import Swarm
 from cflib.crazyflie.syncLogger import SyncLogger
 
-URI1 = 'radio://0/0/2M/E7E7E7E700'
-URI2 = 'radio://0/0/2M/E7E7E7E701'
-URI3 = 'radio://0/0/2M/E7E7E7E702'
+URI0 = 'radio://0/0/2M/E7E7E7E700'
+URI1 = 'radio://0/0/2M/E7E7E7E701'
+URI2 = 'radio://0/0/2M/E7E7E7E702'
+URI3 = 'radio://0/0/2M/E7E7E7E703'
+URI4 = 'radio://0/40/2M/E7E7E7E7E7'
+URI5 = 'radio://0/50/2M/E7E7E7E7E7'
+URI6 = 'radio://0/60/2M/E7E7E7E7E7'
 
+
+h=1
+w=3
+
+sequence0 = [
+    (2,4,h,w),
+    (1,4,h,w),
+]
 sequence1 = [
-    (0.,0.,1.2,5.0),
-    (1.5,1.5,1.2,5.0),
-    (0.,3.,1.2,5.0),
+    (2,2.5,h,w),
+    (1,2.5,h,w),
 ]
 sequence2 = [
-    (1.5,1.5,1.2,5.0),
-    (0.,3.,1.2,5.0),
-    (0.,0.,1.2,5.0),
+    (2,1,h,w),
+    (1,1,h,w),
 ]
 sequence3 = [
-    (0.,3.,1.2,5.0),
-    (0.,0.,1.2,5.0),
-    (1.5,1.5,1.2,5.0),
+    (2,-0.5,h,w),
+    (1,-0.5,h,w),
 ]
+sequence4 = [
+    (0.5,3.5,h,w),
+    (-0.5,3.5,h,w),
+]
+sequence5 = [
+    (0.5,2,h,w),
+    (-0.5,2,h,w),
+]
+sequence6 = [
+    (0.5,0.5,h,w),
+    (-0.5,0.5,h,w),
+]
+
 seq_args = {
+    URI0: [sequence0],
     URI1: [sequence1],
     URI2: [sequence2],
     URI3: [sequence3],
+    URI4: [sequence4],
+    URI5: [sequence5],
+    URI6: [sequence6],
 }
 uris = {
+    URI0,
     URI1,
     URI2,
     URI3,
+    URI4,
+    URI5,
+    URI6,
 }
 
 def wait_for_position_estimator(scf):

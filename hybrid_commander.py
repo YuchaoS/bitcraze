@@ -7,7 +7,7 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 from cflib.positioning.position_hl_commander import PositionHlCommander
 
-URI = 'radio://0/0/2M/E7E7E7E703'
+URI = 'radio://0/00/2M/E7E7E7E703'
 
 
 if __name__ == '__main__':
