@@ -7,7 +7,7 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 from cflib.positioning.position_hl_commander import PositionHlCommander
 
-URI = 'radio://0/00/2M/E7E7E7E703'
+URI = 'radio://0/00/2M/E7E7E7E700'
 
 
 if __name__ == '__main__':
@@ -21,16 +21,16 @@ if __name__ == '__main__':
             time.sleep(1)
             pc.default_velocity=0.3,
             print(pc.get_position())
-            pc.go_to(0, 0, 1.6)
+            pc.go_to(0, 0, 1.0)
             print(pc.get_position())
             time.sleep(1)
-            pc.go_to(2.5, 0, 1.6)
+            pc.go_to(1.5, 0, 1.0)
             print(pc.get_position())
             time.sleep(1)
-            pc.go_to(2.5, 3.5, 1.6)
+            pc.go_to(1.5, 1.5, 1.0)
             print(pc.get_position())
             time.sleep(1)
-            pc.go_to(0, 3.5, 1.6)
+            pc.go_to(0, 1.5, 1.0)
             print(pc.get_position())
             time.sleep(1)
-            pc.go_to(0, 0, 1.6)
+            pc.go_to(0, 0, 1.0)
