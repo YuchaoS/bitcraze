@@ -14,7 +14,7 @@ def position_callback(timestamp, data, logconf):
 if __name__ == '__main__':
     # Initialize the low-level drivers (don't list the debug drivers)
     cflib.crtp.init_drivers(enable_debug_driver=False)
-    log_conf = LogConfig(name='Position', period_in_ms=1000)
+    log_conf = LogConfig(name='Position', period_in_ms=500)
     log_conf.add_variable('ranging.distance2', 'float')
     #log_conf.add_variable('kalman.stateX', 'float')
     #log_conf.add_variable('kalman.stateZ', 'float')
@@ -27,6 +27,5 @@ if __name__ == '__main__':
         log_conf.data_received_cb.add_callback(position_callback)
         log_conf.start()
         for i in range(60):
-            print(i)
             time.sleep(1)
 
