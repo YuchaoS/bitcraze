@@ -56,8 +56,8 @@ from cflib.crazyflie.swarm import Swarm
 from cflib.crazyflie.syncLogger import SyncLogger
 
 # Change uris and sequences according to your setup
-URI1 = 'radio://0/0/2M/E7E7E7E700'
-URI2 = 'radio://0/50/2M/E7E7E7E7E7'
+URI1 = 'radio://0/40/2M/E7E7E7E7E7'
+URI2 = 'radio://0/20/2M/E7E7E7E7E7'
 
 
 z0 = 0.4
@@ -74,23 +74,15 @@ y3 = 1.0
 
 #    x   y   z  time
 sequence1 = [
-    (x0, y0, z0, 3.0),
-    (x0, y0, z, 30.0),
-    (-x0, y0, z, 30.0),
-    (-x0, -y0, z, 30.0),
-    (x0, -y0, z, 30.0),
-    (x0, y0, z, 30.0),
-    (x0, y0, z0, 3.0),
+    (x0, y0, z0, 1.0),
+    (x0, y0, z, 3.0),
+    (x0, y0, z0, 1.0),
 ]
 
 sequence2 = [
-    (x0, y1, z0, 3.0),
-    (x0, y1, z, 30.0),
-    (-x0, y1, z, 30.0),
-    (-x0, -y1, z, 30.0),
-    (x0, -y1, z, 30.0),
-    (x0, y1, z, 30.0),
-    (x0, y1, z0, 3.0),
+    (x0, y1, z0, 1.0),
+    (x0, y1, z, 3.0),
+    (x0, y1, z0, 1.0),
 ]
 
 sequence3 = [
@@ -153,15 +145,20 @@ uris = {
 }
 
 def position_callback(timestamp, data, logconf):
+    print('I m in callback')
     print(data)
+    print(logconf.cf.link_uri)
 
 def wait_for_position_estimator(scf):
     print('Waiting for estimator to find position...')
 
     log_config = LogConfig(name='Kalman Variance', period_in_ms=500)
-    log_config.add_variable('kalman.varPX', 'float')
-    log_config.add_variable('kalman.varPY', 'float')
-    log_config.add_variable('kalman.varPZ', 'float')
+    log_config.add_variable('kalman.stateX', 'float')
+    log_config.add_variable('kalman.stateY', 'float')
+    log_config.add_variable('kalman.stateZ', 'float')
+    import pdb; pdb.set_trace()
+    log_config.data_received_cb.add_callback(position_callback)
+    log_config.start()
 
     var_y_history = [1000] * 10
     var_x_history = [1000] * 10
@@ -172,10 +169,9 @@ def wait_for_position_estimator(scf):
     with SyncLogger(scf, log_config) as logger:
         for log_entry in logger:
             data = log_entry[1]
-            logger.add_variable('ranging.distance2', 'float')
+            log_config.add_variable('ranging.distance2', 'float')
             var_x_history.append(data['kalman.varPX'])
             var_x_history.pop(0)
-       
             var_y_history.append(data['kalman.varPY'])
             var_y_history.pop(0)
             var_z_history.append(data['kalman.varPZ'])
@@ -271,7 +267,7 @@ if __name__ == '__main__':
         # probably not needed. The Kalman filter will have time to converge
         # any way since it takes a while to start them all up and connect. We
         # keep the code here to illustrate how to do it.
-        # swarm.parallel(reset_estimator)
+        swarm.parallel(reset_estimator)
 
         # The current values of all parameters are downloaded as a part of the
         # connections sequence. Since we have 10 copters this is clogging up
