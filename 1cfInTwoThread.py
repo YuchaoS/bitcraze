@@ -48,6 +48,7 @@ y0  7               1
 
 """
 import time
+from threading import Thread
 
 import cflib.crtp
 from cflib.crazyflie.log import LogConfig
@@ -145,8 +146,54 @@ uris = {
 }
 
 class PublicSWarm(Swarm):
-    def get_all_cfs(self):
+    def get_all_scfs(self):
         return self._cfs
+    
+    def parallel_unblock(self, func, args_dict=None):
+        """
+        Execute a function for all Crazyflies in the swarm, in parallel.
+        One thread per Crazyflie is started to execute the function. The
+        threads are joined at the end. Exceptions raised by the threads are
+        ignored.
+
+        For a description of the arguments, see sequential()
+
+        :param func:
+        :param args_dict:
+        """
+        try:
+            self.parallel_safe_unblock(func, args_dict)
+        except Exception:
+            pass
+
+    def parallel_safe_unblock(self, func, args_dict=None):
+        """
+        Execute a function for all Crazyflies in the swarm, in parallel.
+        One thread per Crazyflie is started to execute the function. The
+        threads are joined at the end and if one or more of the threads raised
+        an exception this function will also raise an exception.
+
+        For a description of the arguments, see sequential()
+
+        :param func:
+        :param args_dict:
+        """
+        threads = []
+        reporter = self.Reporter()
+
+        for uri, scf in self._cfs.items():
+            args = [func, reporter] + \
+                self._process_args_dict(scf, uri, args_dict)
+
+            thread = Thread(target=self._thread_function_wrapper, args=args)
+            threads.append(thread)
+            thread.start()
+
+
+        if reporter.is_error_reported():
+            raise Exception('One or more threads raised an exception when '
+                            'executing parallel task')
+
 
 def position_callback(timestamp, data, logconf):
     print('I m in callback')
@@ -258,7 +305,7 @@ def run_sequence(scf, sequence):
         log_config.data_received_cb.add_callback(position_callback)
         log_config.start()
         '''
-        for i in range(0,10):
+        for i in range(0,5):
             print('run sequence',i)
             time.sleep(1)
     except Exception as e:
@@ -284,4 +331,8 @@ if __name__ == '__main__':
         print('Waiting for parameters to be downloaded...')
         swarm.parallel(wait_for_param_download)
 
-        swarm.parallel(run_sequence, args_dict=seq_args)
+        swarm.parallel_unblock(run_sequence, args_dict=seq_args)
+        scfs = swarm.get_all_scfs()
+        localuri = scfs[URI1].cf.link_uri
+        print(localuri)
+        
