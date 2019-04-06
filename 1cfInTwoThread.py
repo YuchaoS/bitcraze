@@ -135,7 +135,7 @@ sequence10 = [
 ]
 
 seq_args = {
-    URI1: [sequence1],
+    URI1: [[sequence1,1]],
    # URI2: [sequence2],
 }
 
@@ -308,6 +308,7 @@ def run_sequence(scf, sequence):
         for i in range(0,5):
             print('run sequence',i)
             time.sleep(1)
+        print('The second param is', sequence[1])
     except Exception as e:
         print(e)
 
