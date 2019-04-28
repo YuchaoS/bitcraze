@@ -28,7 +28,6 @@ Version of the AutonomousSequence.py example connecting to 10 Crazyflies.
 The Crazyflies go straight up, hover a while and land but the code is fairly
 generic and each Crazyflie has its own sequence of setpoints that it files
 to.
-
 The layout of the positions:
     x2      x1      x0
 
@@ -41,7 +40,6 @@ y2  9       6       3
             +------> X
 
 y1  8       5       2
-
 
 
 y0  7               1
